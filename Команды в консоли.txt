@@ -1,0 +1,33 @@
+1.u1 = User.objects.create_user(username='Luffy') 
+  u2 = User.objects.create_user(username='Ace') 
+2.Author.objects.create(authorUser=u1)
+  Author.objects.create(authorUser=u2)
+3.Category.objects.create(name='IT')
+  Category.objects.create(name='Humor')
+  Category.objects.create(name='Ecoomics')
+  Category.objects.create(name='Politics')
+4.Post.objects.create(author=author, categoryType='NW', title='Новость 1', text='Текст новости 1')
+  Post.objects.create(author=author, categoryType='NW', title='Новость 2', text='Текст новости 2')
+  Post.objects.create(author=author, categoryType='AR', title='Статья 1', text='Текст статьи 1')
+5.Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1), Category.objects.get(id=3))
+  Post.objects.get(id=2).postCategory.add(Category.objects.get(id=2))
+  Post.objects.get(id=3).postCategory.add(Category.objects.get(id=4))
+6.Comments.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='Текст комментарий 1')
+  Comments.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, text='Текст комментарий 2')
+  Comments.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=2).authorUser, text='Текст комментарий 3')
+7.Comments.objects.get(id=1).like() 
+  Comments.objects.get(id=2).like() 
+  Comments.objects.get(id=2).like() 
+  Comments.objects.get(id=3).dislike()
+  Comments.objects.get(id=3).rating
+8.Author.objects.get(id=1).update_rating()
+  Author.objects.get(id=1).ratingAuthor 
+9.Author.objects.order_by('-ratingAuthor')[:1]
+  
+  for i in a:
+      i.ratingAuthor
+      i.authorUser.username
+
+10.Post.objects.order_by('-rating').values('dateCreation', 'author__authorUser__username', 'rating', 'title')[0]
+11.Post.objects.order_by('-rating')[0].comments_set.all().values('dateCreation', 'commentUser__username', 'rating', 'text')
+

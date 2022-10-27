@@ -59,7 +59,8 @@ ROOT_URLCONF = 'NewsPaper.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'news/templates/flatpages')],
+        'DIRS': [],
+            #os.path.join(BASE_DIR, 'news/templates/flatpages')
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

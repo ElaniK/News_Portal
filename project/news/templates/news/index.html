@@ -26,7 +26,7 @@ NEWS
                 Все остальные символы превратятся в многоточие. -->
                <td>{{ a.title }}</td>
                <td>{{ a.text|truncatechars:15 }}</td>
-               <td>{{ a.dateCreation}}</td>
+               <td>{{ a.dateCreation | date:'d M. Y H i s'}}</td>
                <td><a href="info/{{info.title}}"> подробнее </a></td>
            </tr>
            {% endfor %}

@@ -1,0 +1,15 @@
+{% extends 'default.html' %}
+
+<!-- Название  -->
+{% block title %}
+NEWS
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все новости -->
+{% block content %}
+<h1>Все новости </h1>
+{% for a in post %}
+<p>{{ a.title }} : {{ a.dateCreation}}</p>
+<a href="info/{{info.title}}"> подробнее </a>
+{% endfor %}
+{% endblock content %}

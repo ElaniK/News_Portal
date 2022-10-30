@@ -7,9 +7,32 @@ NEWS
 
 <!-- В контенте на странице мы выводим все новости -->
 {% block content %}
-<h1>Все новости </h1>
-{% for a in post %}
-<p>{{ a.title }} : {{ a.dateCreation}}</p>
-<a href="info/{{info.title}}"> подробнее </a>
-{% endfor %}
+   <h1>Все новости</h1>
+   <hr>
+   {% if post %}
+       <table>
+           <tr>
+               <td>Категория</td>
+               <td>Автор</td>
+               <td>Текст</td>
+               <td>Дата публикации</td>
+               <td>Информация</td>
+           </tr>
+           {% for a in post %}
+           <tr>
+               <td>{{ a.categoryType }}</td>
+                <!-- Добавим специальный фильтр truncatechars,
+                чтобы ограничить количество символов
+                Все остальные символы превратятся в многоточие. -->
+               <td>{{ a.title }}</td>
+               <td>{{ a.text|truncatechars:15 }}</td>
+               <td>{{ a.dateCreation}}</td>
+               <td><a href="info/{{info.title}}"> подробнее </a></td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
 {% endblock content %}

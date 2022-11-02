@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
 ]
 
-SIED_ID = 1 # для работы стат страниц(страницы указываются в urls)
+SITE_ID = 1 # для работы стат страниц(страницы указываются в urls)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

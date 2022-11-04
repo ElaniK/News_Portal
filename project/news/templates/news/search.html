@@ -19,7 +19,7 @@ NEWS
        <input type="submit" value="Найти" />
    </form>
 <hr>
-{% if post %}
+{% if search %}
 <table>
     <tr>
         <td>Категория</td>
@@ -28,7 +28,7 @@ NEWS
         <td>Дата публикации</td>
         <td>Информация</td>
     </tr>
-    {% for a in post %}
+    {% for a in search %}
     <tr>
         <td>{{ a.categoryType }}</td>
         <!-- Добавим специальный фильтр truncatechars,

@@ -29,7 +29,7 @@ class ShowPost(DetailView):
 class SearchPost(ListView):
     model = Post
     template_name = 'news/search.html'
-    context_object_name = 'serach'
+    context_object_name = 'search'
     paginate_by = 2 # указываем количество записей на странице
 
     def get_queryset(self):

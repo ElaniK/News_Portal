@@ -7,6 +7,8 @@ urlpatterns = [
     # path('info/<str:title>/', detail, name='detail'),
 
     path('', PostList.as_view()),
-    path('info/<int:pk>/', ShowPost.as_view())
+    path('info/<int:pk>/', ShowPost.as_view()),
+    path('search/', PostList.as_view()),
+
 ]
 

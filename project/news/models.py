@@ -19,9 +19,15 @@ class Author(models.Model):
         self.ratingAuthor = pRat * 3 + cRat
         self.save()
 
+    def __str__(self):
+        return f'{self.authorUser}'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Post(models.Model):
@@ -58,6 +64,9 @@ class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
     categoryThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.postThrough, self.categoryThrough}'
+
 
 class Comments(models.Model):
     commentPost = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -73,3 +82,6 @@ class Comments(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+    def __str__(self):
+        return f'{self.commentUser, self.commentPost}'

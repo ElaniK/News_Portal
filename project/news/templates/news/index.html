@@ -31,7 +31,7 @@ NEWS
                 Все остальные символы превратятся в многоточие. -->
                <td>{{ a.title }}</td>
                <td>{{ a.text|truncatechars:15 }}</td>
-               <td>{{ a.dateCreation | date:'d M. Y H i s'}}</td>
+               <td>{{ a.dateCreation | date:'d M. Y H:i'}}</td>
                <td><a href="info/{{ a.title}}"> подробнее </a></td>
                <!-- используем фильтр -->
                <td>{{ a.text|censor }}</td>

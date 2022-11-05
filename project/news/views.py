@@ -2,6 +2,8 @@
 from .models import *
 from django.views.generic import ListView, DetailView
 from .filters import *
+from .forms import *
+from django.http import HttpResponseRedirect
 
 # def index(request):
 #     post = Post.objects.all()
@@ -41,3 +43,14 @@ class SearchPost(ListView):
         context = super().get_context_data(**kwargs)
         context['filterset'] = self.filterset
         return context
+
+
+def create_post(request):
+    if request.method =='POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/news/')
+
+    form = PostForm
+    return render(request, 'create.html', {'form': form})

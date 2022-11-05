@@ -1,9 +1,13 @@
-#from django.shortcuts import render
+from django.shortcuts import render
 from .models import *
-from django.views.generic import ListView, DetailView
+from django.views.generic import (
+    ListView, DetailView, CreateView, UpdateView, DeleteView
+)
 from .filters import *
 from .forms import *
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+
 
 # def index(request):
 #     post = Post.objects.all()
@@ -19,20 +23,21 @@ class PostList(ListView):
     model = Post
     template_name = 'news/index.html'
     context_object_name = 'post'
-    paginate_by = 2 # указываем количество записей на странице
+    paginate_by = 2  # указываем количество записей на странице
 
 
 class ShowPost(DetailView):
     model = Post
     template_name = 'news/info.html'
-    #pk_url_kwarg: str = "pk"
+    # pk_url_kwarg: str = "pk"
     context_object_name = 'info'
+
 
 class SearchPost(ListView):
     model = Post
     template_name = 'news/search.html'
     context_object_name = 'search'
-    paginate_by = 2 # указываем количество записей на странице
+    paginate_by = 2  # указываем количество записей на странице
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -45,12 +50,31 @@ class SearchPost(ListView):
         return context
 
 
-def create_post(request):
-    if request.method =='POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/news/')
+# def create_post(request):
+#     if request.method =='POST':
+#         form = PostForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect('/news/')
+#
+#     form = PostForm
+#     return render(request, 'create.html', {'form': form})
 
-    form = PostForm
-    return render(request, 'create.html', {'form': form})
+
+class CreatePost(CreateView):
+    model = Post
+    template_name = 'news/create.html'
+    form_class = PostForm
+
+
+class UpdatePost(UpdateView):
+    model = Post
+    template_name = 'news/create.html'
+    form_class = PostForm
+
+
+class DeletePost(DeleteView):
+    model = Post
+    template_name = 'news/delete.html'
+    success_url = reverse_lazy('post_list')
+    context_object_name = 'del_post'

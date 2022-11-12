@@ -1,7 +1,6 @@
 {% extends 'default.html' %}
 <!-- подключение фильтра -->
 {% load censor_filters %}
-
 <!-- Подключаем новый файл с нашим тегом -->
 {% load custom_tags %}
 
@@ -12,36 +11,55 @@ NEWS
 
 <!-- В контенте на странице мы выводим все новости -->
 {% block content %}
-   <h1>Все новости</h1>
+<h1>Все новости</h1>
+
+    {% if perms.news.add_post %}
+    <a href="{% url 'create_post' %}">Добавить пост</a>
+    {% endif %}
    <hr>
-   {% if post %}
-       <table>
-           <tr>
-               <td>Категория</td>
-               <td>Автор</td>
-               <td>Текст</td>
-               <td>Дата публикации</td>
-               <td>Информация</td>
-           </tr>
-           {% for a in post %}
-           <tr>
-               <td>{{ a.categoryType }}</td>
-                <!-- Добавим специальный фильтр truncatechars,
-                чтобы ограничить количество символов
-                Все остальные символы превратятся в многоточие. -->
-               <td>{{ a.title }}</td>
-               <td>{{ a.text|truncatechars:15 }}</td>
-               <td>{{ a.dateCreation | date:'d M. Y H:i'}}</td>
-               <td><a href="info/{{ a.title}}"> подробнее </a></td>
-               <!-- используем фильтр -->
-               <td>{{ a.text|censor }}</td>
 
-           </tr>
-           {% endfor %}
+<hr>
+{% if post %}
+<table>
+    <tr>
+        <td>Категория</td>
+        <td>Название</td>
+        <td>Текст</td>
+        <td>Дата публикации</td>
+        <td>Информация</td>
+        {% if perms.news.change_post or perms.news.delete_post %}
+        <td>Действия</td>
+        {% endif %}
+    </tr>
 
-       </table>
-   {% else %}
-       <h2>Новостей нет!</h2>
+    {% for a in post %}
+    <tr>
+        <td>{{ a.categoryType }}</td>
+        <!-- Добавим специальный фильтр truncatechars,
+        чтобы ограничить количество символов
+        Все остальные символы превратятся в многоточие. -->
+        <td>{{ a.title }}</td>
+        <td>{{ a.text|truncatechars:15}}</td>
+        <td>{{ a.dateCreation | date:'d M. Y H : i'}}</td>
+        <td><a href="info/{{ a.id}}"> подробнее </a></td>
+        <!-- используем фильтр -->
+        <!--<td>{{ a.text|censor }} </td> -->
+
+                        <td>
+                    {% if perms.news.change_post %}
+                    <a href="{% url 'update_post' pk=a.id %}">Изменить</a>
+                    {% endif %}
+                    {% if perms.news.delete_post %}
+                    <a href="{% url 'delete_post' a.id %}">Удалить</a>
+                    {% endif %}
+                </td>
+
+    </tr>
+    {% endfor %}
+
+</table>
+{% else %}
+<h2>Новостей нет!</h2>
 {% endif %}
 <!--Добавляем пагинацию на страницу -->
 
@@ -66,4 +84,5 @@ NEWS
            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
        {% endif %}
    {% endif %}
+
 {% endblock content %}

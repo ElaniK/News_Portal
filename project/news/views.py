@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
 from .models import *
 from django.views.generic import (
@@ -61,19 +62,22 @@ class SearchPost(ListView):
 #     return render(request, 'create.html', {'form': form})
 
 
-class CreatePost(CreateView):
+class CreatePost(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post',)
     model = Post
     template_name = 'news/create.html'
     form_class = PostForm
 
 
-class UpdatePost(UpdateView):
+class UpdatePost(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     model = Post
     template_name = 'news/create.html'
     form_class = PostForm
 
 
-class DeletePost(DeleteView):
+class DeletePost(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_post',)
     model = Post
     template_name = 'news/delete.html'
     success_url = reverse_lazy('post_list')

@@ -36,13 +36,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites', # модуль Д1
-    'django.contrib.flatpages', #добавлены для работы со статическими страницами Модуль Д1
-    'news', #создано приложение модуль Д2
+    'django.contrib.sites',  # модуль Д1
+    'django.contrib.flatpages',  # добавлены для работы со статическими страницами Модуль Д1
+    'news',  # создано приложение модуль Д2
+    'django_filters',
+    'allauth',
+    # 3 обязательных приложения allauth
+    # и одно, которое отвечает за выход через Yandex
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.yandex',
 
 ]
 
-SITE_ID = 1 # для работы стат страниц(страницы указываются в urls)
+SITE_ID = 1  # для работы стат страниц(страницы указываются в urls)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,7 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware', #для работы стат страниц модуль Д1
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',  # для работы стат страниц модуль Д1
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -60,7 +67,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'news/templates/news')], #указание пути шаблона html
+        'DIRS': [os.path.join(BASE_DIR, 'news/templates/news')],  # указание пути шаблона html
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,9 +75,16 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # `allauth` обязательно нужен этот процессор
+                'django.template.context_processors.request'
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
@@ -127,3 +141,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+LOGIN_REDIRECT_URL = "/news"
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}

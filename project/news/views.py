@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import *
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -82,3 +82,17 @@ class DeletePost(PermissionRequiredMixin, DeleteView):
     template_name = 'news/delete.html'
     success_url = reverse_lazy('post_list')
     context_object_name = 'del_post'
+
+
+class CategoryList(ListView):
+    model = Post
+    template_name = 'news/categories.html'
+    context_object_name = 'categories'
+
+    def get_queryset(self):  # фильтрация по категории
+        # выдаст ошибку 404, если категории не существует
+        self.postCategory = get_object_or_404(Category, id=self.kwargs['pk'])
+        queryset = Post.objects.filter(postCategory=self.postCategory).order_by('dateCreation')
+        return queryset
+
+

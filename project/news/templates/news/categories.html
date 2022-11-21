@@ -1,17 +1,16 @@
 {% extends 'default.html' %}
-<!-- подключение фильтра -->
+
 {% load censor_filters %}
-<!-- Подключаем новый файл с нашим тегом -->
+
 {% load custom_tags %}
 
 <!-- Название  -->
 {% block title %}
-NEWS
+Categories
 {% endblock title %}
 
-<!-- В контенте на странице мы выводим все новости -->
 {% block content %}
-<h1>Все новости</h1>
+<h1>Новости</h1>
 
     {% if perms.news.add_post %}
     <a href="{% url 'create_post' %}">Добавить пост</a>
@@ -19,10 +18,9 @@ NEWS
    <hr>
 
 <hr>
-{% if post %}
+{% if categories %}
 <table>
     <tr>
-        <td>Категория</td>
         <td>Название</td>
         <td>Текст</td>
         <td>Дата публикации</td>
@@ -32,24 +30,16 @@ NEWS
         {% endif %}
     </tr>
 
-    {% for a in post %}
+    {% for a in categories %}
     <tr>
-        <td>
-            {% for m in a.postCategory.all %}
-            <a href="{% url 'category_list' m.id %}">{{ m.name }}</a>
-            {% endfor %}
-        </td>
-        <!-- Добавим специальный фильтр truncatechars,
-        чтобы ограничить количество символов
-        Все остальные символы превратятся в многоточие. -->
+
         <td>{{ a.title }}</td>
         <td>{{ a.text|truncatechars:15}}</td>
         <td>{{ a.dateCreation | date:'d M. Y H : i'}}</td>
-        <td><a href="info/{{ a.id}}"> подробнее </a></td>
-        <!-- используем фильтр -->
-        <!--<td>{{ a.text|censor }} </td> -->
+        <td><a href="{% url 'show_post' a.id %}"> подробнее </a></td>
+        <td>{{ a.text|censor }} </td>
 
-                        <td>
+                <td>
                     {% if perms.news.change_post %}
                     <a href="{% url 'update_post' pk=a.id %}">Изменить</a>
                     {% endif %}
@@ -65,11 +55,8 @@ NEWS
 {% else %}
 <h2>Новостей нет!</h2>
 {% endif %}
-<!--Добавляем пагинацию на страницу -->
 
-<!--Информация о предыдущих страницах -->
    {% if page_obj.has_previous %}
-       <!-- Для каждой ссылки пагинации указываем обработку через новый тег -->
        <a href="?{% url_replace page=1 %}">1</a>
        {% if page_obj.previous_page_number != 1 %}
            ...

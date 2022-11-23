@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -8,6 +9,8 @@ from .filters import *
 from .forms import *
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+
+
 
 
 # def index(request):
@@ -96,3 +99,24 @@ class CategoryList(ListView):
         return queryset
 
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_subscribe'] = self.request.user not in self.postCategory.subscribers.all()
+        context['postCategory'] = self.postCategory
+        return context
+
+#подписка на группу
+@login_required
+def add_subscribe(request, **kwargs):
+    category_number = int(kwargs['pk'])
+    Category.objects.get(pk=category_number).subscribers.add(request.user)
+
+    return redirect('/news/')
+
+#отписка на группу
+@login_required
+def delete_subscribe(request, **kwargs):
+    category_number = int(kwargs['pk'])
+    Category.objects.get(pk=category_number).subscribers.remove(request.user)
+
+    return redirect('/news/')

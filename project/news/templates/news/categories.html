@@ -16,7 +16,13 @@ Categories
     <a href="{% url 'create_post' %}">Добавить пост</a>
     {% endif %}
    <hr>
-
+    <form>
+        {% if is_not_subscribe %}
+            <button><a href="{% url 'add_subscribe' postCategory.id %}">Подписаться!</a></button>
+        {% else %}
+            <button><a href="{% url 'delete_subscribe' postCategory.id %}">Отписаться!</a></button>
+        {% endif %}
+    </form>
 <hr>
 {% if categories %}
 <table>
@@ -37,8 +43,6 @@ Categories
         <td>{{ a.text|truncatechars:15}}</td>
         <td>{{ a.dateCreation | date:'d M. Y H : i'}}</td>
         <td><a href="{% url 'show_post' a.id %}"> подробнее </a></td>
-        <td>{{ a.text|censor }} </td>
-
                 <td>
                     {% if perms.news.change_post %}
                     <a href="{% url 'update_post' pk=a.id %}">Изменить</a>

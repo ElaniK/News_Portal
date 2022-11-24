@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+
 from dotenv import load_dotenv
 from pathlib import Path
 import os
@@ -38,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',  # модуль Д1
     'django.contrib.flatpages',  # добавлены для работы со статическими страницами Модуль Д1
-    'news',  # создано приложение модуль Д2
+    'news.apps.NewsConfig',  # создано приложение модуль Д2
     'django_filters',
     'allauth',
     # 3 обязательных приложения allauth
@@ -152,3 +153,11 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+SITE_URL = 'http://127.0.0.1:8000/'
+
+EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True

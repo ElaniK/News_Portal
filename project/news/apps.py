@@ -1,9 +1,4 @@
-import django
-
-django.setup()
-
 from django.apps import AppConfig
-
 from . import signals
 
 

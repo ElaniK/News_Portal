@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',  # модуль Д1
     'django.contrib.flatpages',  # добавлены для работы со статическими страницами Модуль Д1
+    #'news',
     'news.apps.NewsConfig',  # создано приложение модуль Д2
     'django_filters',
     'allauth',
@@ -161,3 +163,8 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

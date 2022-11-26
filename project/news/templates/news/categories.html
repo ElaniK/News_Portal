@@ -60,7 +60,9 @@ Categories
 <h2>Новостей нет!</h2>
 {% endif %}
 
+<!--Информация о предыдущих страницах -->
    {% if page_obj.has_previous %}
+       <!-- Для каждой ссылки пагинации указываем обработку через новый тег -->
        <a href="?{% url_replace page=1 %}">1</a>
        {% if page_obj.previous_page_number != 1 %}
            ...

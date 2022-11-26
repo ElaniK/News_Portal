@@ -91,6 +91,7 @@ class CategoryList(ListView):
     model = Post
     template_name = 'news/categories.html'
     context_object_name = 'categories'
+    paginate_by = 5
 
     def get_queryset(self):  # фильтрация по категории
         # выдаст ошибку 404, если категории не существует

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    'django_apscheduler',
 
 ]
 
@@ -162,3 +163,10 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+
+# формат даты, которую будет воспринимать наш задачник
+APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
+
+# если задача не выполняется за 25 секунд, то она автоматически снимается
+# заботимся о производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25

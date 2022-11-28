@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-
 from dotenv import load_dotenv
 from pathlib import Path
 import os
@@ -86,7 +85,7 @@ TEMPLATES = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.accounts.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
@@ -146,12 +145,14 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = "/news"
 LOGOUT_REDIRECT_URL = "/news"
+AUTHENTICATED_REDIRECT_URL = "/news"
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # активирует аккаунт сразу, как только мы перейдем по ссылке
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 

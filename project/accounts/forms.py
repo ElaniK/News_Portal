@@ -5,6 +5,8 @@ from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
 
 
+
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="Email")
     first_name = forms.CharField(label="Имя")

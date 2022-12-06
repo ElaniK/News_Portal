@@ -172,3 +172,10 @@ APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
 # если задача не выполняется за 25 секунд, то она автоматически снимается
 # заботимся о производительности сервера
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'), # Указываем, куда будем сохранять кэшируемые файлы!
+    }
+}

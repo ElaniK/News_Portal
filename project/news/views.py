@@ -9,6 +9,7 @@ from .filters import *
 from .forms import *
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.core.cache import cache
 
 
 
@@ -35,6 +36,17 @@ class ShowPost(DetailView):
     template_name = 'news/info.html'
     # pk_url_kwarg: str = "pk"
     context_object_name = 'info'
+
+    def get_object(self, *args, **kwargs):  # переопределяем метод получения объекта
+        obj = cache.get(f'Post-{self.kwargs["pk"]}',
+                        None)  # метод get забирает значение по ключу, если его нет, то забирает None.
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'Post-{self.kwargs["pk"]}', obj)
+
+        return obj
 
 
 class SearchPost(ListView):
